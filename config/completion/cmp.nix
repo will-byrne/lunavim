@@ -29,20 +29,29 @@
         enable = true;
         autoEnableSources = false;
         lazyLoad.settings = {
-          event = [ "InsertEnter" "CmdlineEnter" ];
+          event = [
+            "InsertEnter"
+            "CmdlineEnter"
+          ];
           before.__raw = "function() require('lz.n').trigger_load('luasnip') end";
         };
         luaConfig.pre = ''
           local luasnip = require("luasnip")
         '';
         luaConfig.post = ''
+          -- cmp itself may load on CmdlineEnter, before the InsertEnter
+          -- triggers of its sources have fired, so load them here.
+          require("lz.n").trigger_load({ "cmp-nvim-lsp", "cmp-buffer", "cmp-path", "cmp-cmdline", "cmp_luasnip" })
+
           local cmp = require("cmp")
           cmp.setup.cmdline({ "/", "?" }, {
+            mapping = cmp.mapping.preset.cmdline(),
             sources = {
               { name = "buffer" },
             },
           })
           cmp.setup.cmdline(":", {
+            mapping = cmp.mapping.preset.cmdline(),
             sources = cmp.config.sources({
               { name = "path" },
             }, {

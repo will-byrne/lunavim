@@ -12,11 +12,9 @@
     plugins.jdtls = {
       enable = true;
       settings = {
-        cmd = [
-          "${pkgs.jdt-language-server}/bin/jdtls"
-          "--data"
-          "~/.cache/jdtls/workspace"
-        ];
+        # The nixpkgs jdtls wrapper already picks a per-project workspace
+        # (-data) under $XDG_CACHE_HOME, so no data dir is passed here.
+        cmd = [ "${pkgs.jdt-language-server}/bin/jdtls" ];
         settings = {
           java = {
             signatureHelp = true;

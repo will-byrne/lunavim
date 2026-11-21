@@ -6,6 +6,45 @@
   };
   config = lib.mkIf config.keys.enable {
     globals.mapleader = " ";
+
+    extraConfigLua = ''
+      local function toggle_notify(message)
+        vim.notify(message, vim.log.levels.INFO, { title = "Toggle" })
+      end
+
+      function ToggleLineNumber()
+        if vim.wo.number then
+          vim.wo.number = false
+          toggle_notify("Line numbers disabled")
+        else
+          vim.wo.number = true
+          vim.wo.relativenumber = false
+          toggle_notify("Line numbers enabled")
+        end
+      end
+
+      function ToggleRelativeLineNumber()
+        if vim.wo.relativenumber then
+          vim.wo.relativenumber = false
+          toggle_notify("Relative line numbers disabled")
+        else
+          vim.wo.relativenumber = true
+          vim.wo.number = false
+          toggle_notify("Relative line numbers enabled")
+        end
+      end
+
+      function ToggleWrap()
+        vim.wo.wrap = not vim.wo.wrap
+        toggle_notify(vim.wo.wrap and "Wrap enabled" or "Wrap disabled")
+      end
+
+      function ToggleInlayHints()
+        local is_enabled = vim.lsp.inlay_hint.is_enabled()
+        vim.lsp.inlay_hint.enable(not is_enabled)
+        toggle_notify(is_enabled and "Inlay Hints disabled" or "Inlay Hints enabled")
+      end
+    '';
     keymaps = [
       # Terminals
       {
@@ -427,7 +466,7 @@
       {
         mode = "n";
         key = "<C-f>";
-        action = "!tmux new tmux-sessionizer<CR>";
+        action = "<cmd>silent !tmux neww tmux-sessionizer<CR>";
         options = {
           desc = "Switch between projects";
         };

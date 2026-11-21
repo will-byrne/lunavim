@@ -5,13 +5,14 @@
   };
   config = lib.mkIf config.neogit.enable {
     plugins.neogit = {
-      enable = false;
+      enable = true;
     };
     keymaps = [
       {
         mode = "n";
-        key = "<leader>gg";
+        key = "<leader>gn";
         action = "<cmd>Neogit<CR>";
+        options.desc = "Neogit";
       }
     ];
   };

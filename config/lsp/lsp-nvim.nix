@@ -7,7 +7,7 @@
     plugins = {
       lsp = {
         enable = true;
-        capabilities = "offsetEncoding = 'utf-16'";
+        capabilities = "capabilities.offsetEncoding = { 'utf-16' }";
         servers = {
           clangd = {
             enable = true;
@@ -160,18 +160,6 @@
             };
           };
         };
-        onAttach = ''
-          vim.api.nvim_create_autocmd("LspAttach", {
-            group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-            callback = function(args)
-              local client = vim.lsp.get_client_by_id(args.data.client_id)
-              if client.server_capabilities.inlayHintProvider then
-                vim.lsp.inlay_hint.enable(false)
-              end
-              vim.bo[args.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-            end,
-          })
-        '';
       };
     };
     extraConfigLua = ''
@@ -200,7 +188,7 @@
     keymaps = [
       {
         mode = "n";
-        key = "[d";
+        key = "]d";
         action.__raw = "function() vim.diagnostic.jump({ count = 1, float = true }) end";
         options = {
           silent = true;
@@ -209,7 +197,7 @@
       }
       {
         mode = "n";
-        key = "]d";
+        key = "[d";
         action.__raw = "function() vim.diagnostic.jump({ count = -1, float = true }) end";
         options = {
           silent = true;

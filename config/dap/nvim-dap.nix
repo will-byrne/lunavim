@@ -28,7 +28,25 @@
             }
             {
               __unkeyed-1 = "<leader>da";
-              __unkeyed-2.__raw = "function() require('dap').continue({ before = get_args }) end";
+              __unkeyed-2.__raw = ''
+                function()
+                  require("dap").continue({
+                    before = function(config)
+                      local args = type(config.args) == "function" and (config.args() or {}) or config.args or {}
+                      local args_str = type(args) == "table" and table.concat(args, " ") or args
+                      config = vim.deepcopy(config)
+                      config.args = function()
+                        local new_args = vim.fn.expand(vim.fn.input("Run with args: ", args_str))
+                        if config.type == "java" then
+                          return new_args
+                        end
+                        return require("dap.utils").splitstr(new_args)
+                      end
+                      return config
+                    end,
+                  })
+                end
+              '';
               desc = "Run with Args";
             }
             {
@@ -108,7 +126,7 @@
       };
       dap-virtual-text = {
         enable = true;
-         # No trigger of its own: loaded via trigger_load from dap's luaConfig.pre.
+        # No trigger of its own: loaded via trigger_load from dap's luaConfig.pre.
         lazyLoad.settings.lazy = true;
       };
       dap-ui = {

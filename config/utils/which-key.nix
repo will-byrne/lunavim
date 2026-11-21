@@ -81,8 +81,13 @@
           {
             __unkeyed-1 = "<leader>a";
             mode = "n";
-            group = "+alpha";
+            desc = "Open Alpha dashboard";
             icon = "󰀫";
+          }
+          {
+            __unkeyed-1 = "<leader>b";
+            mode = "n";
+            group = "+buffer";
           }
 
           {
@@ -126,6 +131,11 @@
             __unkeyed-1 = "<leader>w";
             mode = "n";
             group = "+windows";
+          }
+          {
+            __unkeyed-1 = "<leader>x";
+            mode = "n";
+            group = "+diagnostics/quickfix";
           }
         ];
         win = {

@@ -10,7 +10,7 @@
       settings = {
         maxwidth = 50;
         ellipsis_char = "...";
-        symbolMap = {
+        symbol_map = {
           Copilot = "";
         };
       };

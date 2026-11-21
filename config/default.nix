@@ -48,6 +48,7 @@
   snippets.enable = lib.mkDefault true;
   statusline.enable = lib.mkDefault true;
   telescope.enable = lib.mkDefault true;
+  terminal.enable = lib.mkDefault true;
   ui.enable = lib.mkDefault true;
   utils.enable = lib.mkDefault true;
 }

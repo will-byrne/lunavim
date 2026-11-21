@@ -7,16 +7,39 @@
     plugins.telescope = {
       enable = true;
       lazyLoad.settings.cmd = "Telescope";
-      luaConfig.post = ''
-        require('lz.n').trigger_load('harpoon2')
-        require('lz.n').trigger_load('lazygit.nvim')
-        require('lz.n').trigger_load('todo-comments.nvim')
-        require('lz.n').trigger_load('project.nvim')
-        require("telescope").load_extension("harpoon")
-        require("telescope").load_extension("projects")
-        require("telescope").load_extension("lazygit")
-        require("telescope").load_extension("todo-comments")
-      '';
+      # Only load extensions whose plugins are actually enabled.
+      luaConfig.post = lib.concatStrings (
+        lib.mapAttrsToList
+          (
+            _: ext:
+            lib.optionalString ext.enabled ''
+              require('lz.n').trigger_load('${ext.plugin}')
+              require("telescope").load_extension("${ext.name}")
+            ''
+          )
+          {
+            harpoon = {
+              enabled = config.plugins.harpoon.enable;
+              plugin = "harpoon2";
+              name = "harpoon";
+            };
+            projects = {
+              enabled = config.plugins.project-nvim.enable;
+              plugin = "project.nvim";
+              name = "projects";
+            };
+            lazygit = {
+              enabled = config.plugins.lazygit.enable;
+              plugin = "lazygit.nvim";
+              name = "lazygit";
+            };
+            todo-comments = {
+              enabled = config.plugins.todo-comments.enable;
+              plugin = "todo-comments.nvim";
+              name = "todo-comments";
+            };
+          }
+      );
       extensions = {
         fzf-native = {
           enable = true;
@@ -72,9 +95,9 @@
           action = "command_history";
           options.desc = "Command History";
         };
-        "<leader>b" = {
+        "<leader>," = {
           action = "buffers";
-          options.desc = "+buffer";
+          options.desc = "Switch buffer";
         };
         "<leader>ff" = {
           action = "find_files";
@@ -152,7 +175,7 @@
           action = "colorscheme";
           options.desc = "Colorscheme preview";
         };
-        "<leader>fp" = {
+        "<leader>fp" = lib.mkIf config.plugins.project-nvim.enable {
           action = "projects";
           options.desc = "Projects";
         };
@@ -160,7 +183,7 @@
           action = "diagnostics bufnr=0";
           options.desc = "Document Diagnostics";
         };
-        "<leader>st" = {
+        "<leader>st" = lib.mkIf config.plugins.todo-comments.enable {
           action = "todo-comments";
           options.desc = "Todo (Telescope)";
         };

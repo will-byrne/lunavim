@@ -15,11 +15,6 @@
     keymaps = [
       {
         mode = "n";
-        key = "<leader>x";
-        action = "+diagnostics/quickfix";
-      }
-      {
-        mode = "n";
         key = "<leader>xx";
         action = "<cmd>Trouble diagnostics toggle<cr>";
         options = {
