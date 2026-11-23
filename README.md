@@ -3,16 +3,16 @@
   <br>
   <br>
   <div>
-    <a href="https://github.com/redyf/Neve/issues">
-        <img src="https://img.shields.io/github/issues/redyf/Neve?color=fab387&labelColor=303446&style=for-the-badge">
+    <a href="https://github.com/will-byrne/lunavim/issues">
+        <img src="https://img.shields.io/github/issues/will-byrne/lunavim?color=fab387&labelColor=303446&style=for-the-badge">
     </a>
-    <a href="https://github.com/redyf/Neve/stargazers">
-        <img src="https://img.shields.io/github/stars/redyf/Neve?color=ca9ee6&labelColor=303446&style=for-the-badge">
+    <a href="https://github.com/will-byrne/lunavim/stargazers">
+        <img src="https://img.shields.io/github/stars/will-byrne/lunavim?color=ca9ee6&labelColor=303446&style=for-the-badge">
     </a>
-    <a href="https://github.com/redyf/Neve">
-        <img src="https://img.shields.io/github/repo-size/redyf/Neve?color=ea999c&labelColor=303446&style=for-the-badge">
+    <a href="https://github.com/will-byrne/lunavim">
+        <img src="https://img.shields.io/github/repo-size/will-byrne/lunavim?color=ea999c&labelColor=303446&style=for-the-badge">
     </a>
-    <a href="https://github.com/redyf/Neve/blob/main/LICENCE">
+    <a href="https://github.com/will-byrne/lunavim/blob/main/LICENCE">
         <img src="https://img.shields.io/static/v1.svg?style=for-the-badge&label=License&message=MIT&logoColor=ca9ee6&colorA=313244&colorB=cba6f7"/>
     </a>
     <br>
@@ -20,152 +20,193 @@
     </div>
    </h1>
 
-<h1 align="center">❄️ Neve ❄️</h1>
+<h1 align="center">🌙 LunaVim 🌙</h1>
 <h3 align="center">
 
 <details>
     <summary>Showcase</summary>
 
-![Neve](./assets/showcase1.png)
-![Neve2](./assets/showcase2.png)
-![Neve3](./assets/showcase3.png)
-![Neve4](./assets/showcase4.png)
+![LunaVim](./assets/showcase1.png)
+![LunaVim 2](./assets/showcase2.png)
+![LunaVim 3](./assets/showcase3.png)
+![LunaVim 4](./assets/showcase4.png)
 
 </details>
 
 </h3>
 
-## What's Neve??
+## What's LunaVim?
 
-Neve (snow in portuguese) is a meticulously crafted custom configuration for Nixvim, designed to revolutionize your development workflow and provide an unparalleled coding experience. This configuration is the culmination of expertise and passion, aiming to provide sane defaults.
+LunaVim is a Neovim configuration written in plain Lua that runs the same way **with or without Nix**:
 
-## Features
+| | On Nix (NixOS, nix-darwin, Linux with Nix) | Without Nix (macOS, Windows, any Linux) |
+|---|---|---|
+| Config | This repo, wrapped into a package by [nixCats](https://github.com/BirdeeHub/nixCats-nvim) | This repo, cloned into your Neovim config folder |
+| Plugins | From nixpkgs, pinned by `flake.lock` | Downloaded by [lazy.nvim](https://github.com/folke/lazy.nvim), pinned by `lazy-lock.json` |
+| LSPs, formatters, linters | From nixpkgs (`flake.nix`) | Downloaded by [Mason](https://github.com/mason-org/mason.nvim) |
+| Treesitter parsers | All grammars, prebuilt | Compiled on first launch |
 
-- **Powerful Development Environment:** Neve is tailored to deliver a robust and efficient development environment. With carefully selected plugins, optimized settings, and thoughtful customization, it ensures that your coding journey is both smooth and productive.
+lazy.nvim loads the plugins in both cases, so the Lua is identical everywhere. On Nix it's told to find each plugin in the Nix store instead of downloading it.
 
-- **Nixvim Integration:** Built on the foundation of Nixvim, Neve seamlessly integrates with the powerful Nix package manager. This integration not only simplifies the setup process but also guarantees a consistent and reproducible development environment across different machines.
-
-- **Thoughtful Customization:** Neve doesn't just stop at default settings. It's designed to be easily customizable, allowing you to tailor your Nixvim experience to match your unique preferences and workflow.
-
-- **Extensive Plugin Support:** Benefit from a curated selection of plugins that cover a wide range of programming languages and development tasks. Neve comes with pre-configured plugins to boost your productivity, and you can effortlessly expand its capabilities to suit your specific needs.
+LunaVim is based on, and inspired by, [redyf/Neve](https://github.com/redyf/Neve), a Nixvim configuration. It started as a fork of Neve and keeps much of its plugin selection, keymaps and settings, rewritten in Lua so it also runs without Nix. Thanks to redyf for the original.
 
 ## Installation
 
-Getting started with Neve is a breeze. Simply follow the installation guide below, and you'll be up and running in no time.
+### With Nix
 
-However if you'd like to give it a try before installing, <b>nix run github:redyf/neve</b> is available!
+Try it without installing:
 
-<details>
-    <summary><b>INSTALLATION GUIDE</b></summary>
-    I'm assuming you already use nix flakes but in case you don't, please check this tutorial to enable them:
+```sh
+nix run github:will-byrne/lunavim
+```
 
-1. Go to flake.nix and add Neve.url = "github:redyf/Neve" to your inputs.
-
-2. Run nix flake update, then Neve should be available for installation.
-
-### Option 1: Using [Flakes](https://nixos.wiki/wiki/Flakes) to install Neve as a Nixvim module.
-
-3. Install it by adding the following code to Nixvim configuration:
+To install it, add the flake to your inputs:
 
 ```nix
-programs.nixvim = {
+inputs.lunavim.url = "github:will-byrne/lunavim";
+```
+
+Then either add the package to `environment.systemPackages` or `home.packages`:
+
+```nix
+inputs.lunavim.packages.${pkgs.stdenv.hostPlatform.system}.default
+```
+
+Or use the home-manager module (`inputs.lunavim.nixosModules.default` works the same way for NixOS):
+
+```nix
+imports = [ inputs.lunavim.homeModules.default ];
+nvim = {
   enable = true;
-  imports = [ inputs.Neve.nixvimModule ];
-  # Then configure Nixvim as usual, you might have to lib.mkForce some of the settings
-  colorschemes.catppuccin.enable = lib.mkForce false;
-  colorschemes.nord.enable = true;
+  packageNames = [ "nvim" ];
 };
 ```
 
-4. Rebuild your system and you should be done :
+The package provides `nvim`, plus `vim` and `lunavim` aliases.
 
-### Option 2: Using [Flakes](https://nixos.wiki/wiki/Flakes) to install Neve as a package
+### macOS (without Nix)
 
-After enabling it, follow the steps below:
+1. Install the command-line tools and the dependencies in the [`Brewfile`](Brewfile):
 
-3. Install it by adding `inputs.Neve.packages.${pkgs.system}.default` to your environment.systemPackages or home.packages if you're using home-manager.
+   ```sh
+   xcode-select --install
+   git clone https://github.com/will-byrne/lunavim ~/.config/nvim
+   cd ~/.config/nvim
+   brew bundle
+   rustup default stable      # rustfmt and cargo
+   brew analytics off         # optional: stop Homebrew's usage analytics
+   ```
 
-4. Rebuild your system and you should be done :
+   To keep an existing Neovim config side by side, clone into `~/.config/lunavim` instead and start it with `NVIM_APPNAME=lunavim nvim`.
 
-</details>
+2. Set your terminal font to **JetBrainsMono Nerd Font** (installed by the Brewfile) so icons render.
 
-<details>
-    <summary><b>How to enable/disable modules</b></summary>
-For those who aren't familiar with the modular structure of nix, make sure to check this great tutorial made by Vimjoyer.
-    
-[Modularize NixOS and Home Manager | Great Practices](https://youtu.be/vYc6IzKvAJQ?si=yBSlOrQ4_Ri_KFFh)
+3. Start `nvim`. On the first launch:
+   - lazy.nvim downloads the plugins.
+   - Mason installs the language servers, formatters and linters in the background (`:Mason` shows progress).
+   - The treesitter parsers compile.
 
-Basically all you need to do is go to the default.nix file of each directory and enable/disable the mkDefault options.
+   Wait for those to finish, then restart Neovim.
 
-Lets say you want to enable neo-tree, in order to do that you'd have to go to config/filetrees/default.nix and change its value
-from
+4. Run `:checkhealth` if anything looks wrong.
 
-```nix
-config = lib.mkIf config.filetrees.enable {
-  neo-tree.enable = lib.mkDefault false;
-};
+5. Commit the `lazy-lock.json` that the first launch writes, so other machines get the same plugin versions.
+
+### Windows (untested)
+
+Clone into `%LOCALAPPDATA%\nvim`. Install Neovim, git, ripgrep, fd, Node.js, Python, a JDK, rustup, `cmake` (for telescope-fzf-native), and a C compiler plus the `tree-sitter` CLI (for treesitter parsers), e.g. with `winget` or `scoop`. Then follow steps 2–5 above.
+
+### Linux without Nix
+
+Clone into `~/.config/nvim` and install the same tools as the Brewfile using your package manager. Then follow steps 2–5 above.
+
+## Layout
+
+```
+flake.nix                  Nix packaging: plugins, tools and categories (Nix only)
+Brewfile                   macOS dependencies (non-Nix only)
+init.lua                   entry point: options, keymaps, then lazy.nvim
+lua/lunavim/
+  options.lua              vim options
+  keymaps.lua              global keymaps
+  autocmds.lua             :FormatToggle, UI toggles, spelling, diagnostics, commenting
+  plugins/                 one lazy.nvim spec file per area
+    ui.lua                 colorscheme, start screen, statusline, bufferline, which-key
+    editor.lua             treesitter, editing helpers, markdown preview
+    navigation.lua         telescope, neo-tree, oil, harpoon, terminals, sessions
+    completion.lua         blink.cmp + LuaSnip
+    lsp.lua                language servers, Mason, conform (formatting), nvim-lint
+    git.lua                gitsigns, lazygit, diffview
+    debug.lua              nvim-dap
+    test.lua               neotest
+lua/nixCatsUtils/          nixCats helpers that make the config work without Nix
+queries/nix/               highlights Lua embedded in Nix strings
 ```
 
-to
+## Customizing
 
-```nix
-config = lib.mkIf config.filetrees.enable {
-  neo-tree.enable = lib.mkDefault true;
-};
-```
+### Adding a plugin
 
-However, sometimes you'll have many plugins in the same directory and it can be quite annoying to change the value for all of them individually. So instead you can disable them all at once in config/default.nix like below:
+1. Add a lazy.nvim spec to a file in `lua/lunavim/plugins/`:
 
-To disable all UI plugins for example, you can easily do it by going to config/default.nix and toggling the value from true to false:
+   ```lua
+   { "author/some-plugin.nvim", event = "VeryLazy", opts = {} },
+   ```
 
-```nix
-  ui.enable = lib.mkDefault false;
-```
+2. On Nix, also add its nixpkgs package to `startupPlugins` in `flake.nix` (e.g. `some-plugin-nvim`).
 
-</details>
+   lazy.nvim finds the plugin in the Nix store by **directory name**, which is the package's nixpkgs `pname`. If that differs from the repo name, set `name = "<pname>"` in the spec; for example LuaSnip uses `name = "luasnip"`. If the names don't match, lazy.nvim falls back to downloading the plugin, even on Nix.
 
-## How to customize the install
+### Language servers, formatters and linters
 
-<p>If you would like to customize Neve to your liking, check this out!</p>
+All three are configured in `lua/lunavim/plugins/lsp.lua`:
+- **Language servers:** the `servers()` table.
+- **Formatters:** `formatters_by_ft` (conform).
+- **Linters:** `linters_by_ft` (nvim-lint).
 
-1- Fork the repo (you can also change the name of the fork if you want).
+When you add a tool, make it available on both sides:
+- **Nix:** add the package to `lspsAndRuntimeDeps` in `flake.nix`.
+- **Without Nix:** add the Mason package name to `mason_tools`.
 
-2- Clone the fork.
+### Categories (Nix only)
 
-3- Make the changes you want, such as enabling/disabling plugins, changing colorschemes, neovim options, etc.
+`flake.nix` groups dependencies into categories: `general`, `lsp`, `format`, `lint`, `debug` and `test`. Turning one off in `packageDefinitions` removes its packages. Specs that check `enableForCategory("<name>")` are also skipped in Lua.
 
-4- Add the fork to your flake.nix file, the original is `Neve.url = “github:redyf/Neve”`. If a user called foo forks the repo and renames it to bar, it would be `bar.url = “github:foo/bar”`.
+Without Nix every category is on.
 
-5- Update your inputs and install the fork with `inputs.Neve.packages.${pkgs.system}.default`.
+### Formatting
 
-6- Rebuild the system and you should be done!
+Format-on-save starts **off**:
+- `<leader>uf` (or `:FormatToggle`) turns it on or off globally.
+- `<leader>uF` (or `:FormatToggle!`) does the same for the current buffer.
+- `<leader>cf` formats the buffer once.
 
-## Quick Start
+## Key bindings
 
-Neve is highly customizable. Here are some important files for configuring your environment:
+`<leader>` is <kbd>Space</kbd>. Press it and wait for which-key to show everything. Some highlights:
 
-- **config/default.nix:** This file contains the main configuration file. You can add or delete plugins as you like.
-
-- **config/sets/set.nix:** In this file, you can add or remove options and adjust their specific settings.
-
-- **config/keys.nix:** This file contains custom key mappings. You can add your own keyboard shortcuts to enhance productivity.
-
-- **config/lsp/lsp-nvim.nix:** Here you can configure your preferred Language Servers.
-
-- **config/lsp/conform.nix:** Configure Formatters for the desired languages.
-
-- **config/languages/nvim-lint.nix:** Set up linters for specific languages.
-
-## Contribution
-
-Contributions are welcome! Feel free to [open an issue](https://github.com/redyf/Neve/issues) to report problems, suggest improvements, or submit pull requests to add new features to Neve.
+| Keys | Action |
+|---|---|
+| `<leader><space>` / `<leader>/` | Find files / grep |
+| `<leader>e` | File tree (neo-tree) |
+| `<leader>o` | Oil (edit the directory as a buffer) |
+| `<S-h>` / `<S-l>` | Previous / next buffer |
+| `<leader>ha`, `<C-e>`, `<leader>1`–`4` | Harpoon: add file, menu, jump to file 1–4 |
+| `<C-h/j/k/l>` | Move between windows and tmux panes |
+| `gd`, `gr`, `K`, `<leader>ca`, `<leader>cr` | LSP: definition, references, hover, code action, rename |
+| `<C-s>` (insert mode) | Signature help |
+| `gc` | Comment (built-in) |
+| `<leader>gg` | LazyGit |
+| `<leader>gb` | Toggle inline git blame |
+| `<leader>gh…` | Git hunks: stage, reset, preview, blame line |
+| `<leader>x…` | Trouble: diagnostics, quickfix, todos |
+| `<leader>d…` | Debugging |
+| `<leader>T…` | Tests (neotest) |
+| `<leader>t…` / `<F7>` | Terminals |
+| `<leader>cp` | Markdown preview |
+| `<leader>u…` | UI toggles: format on save, line numbers, wrap, inlay hints |
+| `<leader>q…` | Sessions |
 
 ## License
 
-This project is licensed under the [MIT License](LICENCE). See the LICENSE file for more details.
-
-## Support
-
-Encountered an issue or have a question? Visit our [Issue Tracker](https://github.com/redyf/Neve/issues) or message me on Discord, my username is **redyf**.
-
-Happy coding!
+This project is licensed under the [MIT License](LICENCE).
