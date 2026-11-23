@@ -150,19 +150,19 @@ return {
             },
           },
           { type = "padding", val = 2 },
-          alpha_button("f", "  Find File", "Telescope find_files"),
+          alpha_button("f", "   Find File", "Telescope find_files"),
           { type = "padding", val = 1 },
-          alpha_button("n", "  New File", "ene | startinsert"),
+          alpha_button("n", "   New File", "ene | startinsert"),
           { type = "padding", val = 1 },
           alpha_button("r", "󰈚  Recent Files", "Telescope oldfiles"),
           { type = "padding", val = 1 },
           alpha_button("g", "󰈭  Find Word", "Telescope live_grep"),
           { type = "padding", val = 1 },
-          alpha_button("s", "  Restore Session", function()
+          alpha_button("s", "   Restore Session", function()
             require("persistence").load()
           end),
           { type = "padding", val = 1 },
-          alpha_button("q", "  Quit Neovim", "qa"),
+          alpha_button("q", "   Quit Neovim", "qa"),
         },
       })
     end,
