@@ -21,19 +21,6 @@
    </h1>
 
 <h1 align="center">🌙 LunaVim 🌙</h1>
-<h3 align="center">
-
-<details>
-    <summary>Showcase</summary>
-
-![LunaVim](./assets/showcase1.png)
-![LunaVim 2](./assets/showcase2.png)
-![LunaVim 3](./assets/showcase3.png)
-![LunaVim 4](./assets/showcase4.png)
-
-</details>
-
-</h3>
 
 ## What's LunaVim?
 
