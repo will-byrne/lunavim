@@ -102,7 +102,12 @@ map("n", "<leader>be", "<cmd>Neotree buffers<CR>", "Buffer explorer")
 map("n", "<leader>ge", "<cmd>Neotree git_status<CR>", "Git explorer")
 
 -- Buffers
-map("n", "<leader>bc", "<cmd>bdelete<cr>", "Close buffer")
+-- mini.bufremove keeps the window open (showing another buffer) instead of
+-- closing it like :bdelete does, so the window layout is preserved (e.g. with
+-- neo-tree open you aren't left with only the tree).
+map("n", "<leader>bc", function()
+  require("mini.bufremove").delete(0, false)
+end, "Close buffer")
 map("n", "<leader>bb", "<cmd>e #<cr>", "Switch to Other Buffer")
 map("n", "<leader>br", "<cmd>BufferLineCloseRight<cr>", "Close buffers to the right")
 map("n", "<leader>bl", "<cmd>BufferLineCloseLeft<cr>", "Close buffers to the left")

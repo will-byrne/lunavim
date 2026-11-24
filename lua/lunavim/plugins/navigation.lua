@@ -58,7 +58,7 @@ return {
     lazy = false,
     dependencies = { "plenary.nvim", "nui.nvim", "nvim-web-devicons" },
     opts = {
-      close_if_last_window = true,
+      close_if_last_window = false,
       enable_diagnostics = true,
       enable_git_status = true,
       enable_modified_markers = true,
