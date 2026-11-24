@@ -114,9 +114,12 @@ map("n", "<leader>bl", "<cmd>BufferLineCloseLeft<cr>", "Close buffers to the lef
 map("n", "<leader>bo", "<cmd>BufferLineCloseOthers<cr>", "Close other buffers")
 map("n", "<leader>bp", "<cmd>BufferLineTogglePin<cr>", "Toggle pin")
 map("n", "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", "Close non-pinned buffers")
--- Not on <Tab>: in a terminal <Tab> is the same key as <C-i> (jump forward).
 map("n", "<S-l>", "<cmd>BufferLineCycleNext<cr>", "Cycle to next buffer")
 map("n", "<S-h>", "<cmd>BufferLineCyclePrev<cr>", "Cycle to previous buffer")
+-- Note: unless the terminal distinguishes them, <Tab> is the same key as <C-i>
+-- (jump forward), so this overrides it.
+map("n", "<Tab>", "<cmd>BufferLineCycleNext<cr>", "Cycle to next buffer")
+map("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<cr>", "Cycle to previous buffer")
 
 -- Tabs
 map("n", "<leader><tab>l", "<cmd>tablast<cr>", "Last tab")
