@@ -36,7 +36,7 @@ map("n", "<leader>uC", "<cmd>Telescope colorscheme<cr>", "Colorscheme preview")
 -- Utilities
 map("n", "<leader>ut", "<cmd>UndotreeToggle<CR>", "Undotree")
 map("n", "<leader>o", "<cmd>Oil --float<CR>", "Open parent directory")
-map("n", "<leader>cp", "<cmd>MarkdownPreview<cr>", "Markdown Preview")
+map("n", "<leader>cp", "<cmd>Markview toggle<cr>", "Toggle markdown rendering")
 map("n", "<leader>un", function()
   require("notify").dismiss({ silent = true, pending = true })
 end, "Dismiss All Notifications")

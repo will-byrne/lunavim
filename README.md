@@ -119,7 +119,7 @@ lua/lunavim/
   autocmds.lua             :FormatToggle, UI toggles, spelling, diagnostics, commenting
   plugins/                 one lazy.nvim spec file per area
     ui.lua                 colorscheme, start screen, statusline, bufferline, which-key
-    editor.lua             treesitter, editing helpers, markdown preview
+    editor.lua             treesitter, editing helpers, markdown rendering (markview)
     navigation.lua         telescope, neo-tree, oil, harpoon, terminals, sessions
     completion.lua         blink.cmp + LuaSnip
     lsp.lua                language servers, Mason, conform (formatting), nvim-lint
@@ -190,7 +190,7 @@ Format-on-save starts **off**:
 | `<leader>d…` | Debugging |
 | `<leader>T…` | Tests (neotest) |
 | `<leader>t…` / `<F7>` | Terminals |
-| `<leader>cp` | Markdown preview |
+| `<leader>cp` | Toggle markdown rendering |
 | `<leader>u…` | UI toggles: format on save, line numbers, wrap, inlay hints |
 | `<leader>q…` | Sessions |
 

@@ -165,18 +165,10 @@ return {
   },
 
   {
-    "iamcco/markdown-preview.nvim",
-    cmd = { "MarkdownPreview", "MarkdownPreviewToggle", "MarkdownPreviewStop" },
-    ft = "markdown",
-    build = lazyAdd(function()
-      vim.fn["mkdp#util#install"]()
-    end),
-    init = function()
-      vim.g.mkdp_theme = "dark"
-      -- Empty string means "system default browser" (macOS / Windows).
-      if vim.fn.has("linux") == 1 then
-        vim.g.mkdp_browser = "firefox"
-      end
-    end,
+    -- Renders headings, tables, code blocks, etc. in the buffer; raw text in insert mode.
+    -- markview lazy-loads itself, so it should not be lazy-loaded by lazy.nvim.
+    "OXY2DEV/markview.nvim",
+    lazy = false,
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
   },
 }

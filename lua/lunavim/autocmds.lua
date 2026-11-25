@@ -79,6 +79,15 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- Markdown: markview can't draw tables in wrapped windows (it falls back to raw pipes).
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("lunavim_markdown_nowrap", { clear = true }),
+  pattern = "markdown",
+  callback = function()
+    vim.opt_local.wrap = false
+  end,
+})
+
 -- Diagnostics ----------------------------------------------------------------
 vim.diagnostic.config({
   float = { border = "rounded" },

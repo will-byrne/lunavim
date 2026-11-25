@@ -141,7 +141,7 @@
               luasnip
               friendly-snippets
 
-              markdown-preview-nvim
+              markview-nvim
             ];
 
             lsp = [
