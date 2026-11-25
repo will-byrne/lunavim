@@ -161,6 +161,21 @@ When you add a tool, make it available on both sides:
 
 Without Nix every category is on.
 
+### Machine-local overrides
+
+Put per-machine settings in `lua/lunavim/local.lua`. Git ignores that file, so pulls leave it alone. It loads after `options.lua`, `keymaps.lua` and `autocmds.lua`, and before the plugins, so any setting in it overrides the defaults. For example, to use 4-space indentation on a work machine:
+
+```lua
+-- lua/lunavim/local.lua
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+```
+
+Projects that have an `.editorconfig` file set their own indentation anyway, because Neovim reads `.editorconfig` by default.
+
+On Nix the flake only includes files that git tracks, so `local.lua` is skipped there.
+
 ### Formatting
 
 Format-on-save starts **off**:

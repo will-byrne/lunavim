@@ -1,2 +1,5 @@
 # Nix build symlink
 result
+
+# Per-machine overrides (see "Machine-local overrides" in the README)
+lua/lunavim/local.lua

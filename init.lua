@@ -16,6 +16,11 @@ require("lunavim.options")
 require("lunavim.keymaps")
 require("lunavim.autocmds")
 
+-- Per-machine overrides from the git-ignored lua/lunavim/local.lua, if it exists.
+if #vim.api.nvim_get_runtime_file("lua/lunavim/local.lua", false) > 0 then
+  require("lunavim.local")
+end
+
 local isNixCats = require("nixCatsUtils").isNixCats
 
 require("nixCatsUtils.lazyCat").setup(nixCats.pawsible({ "allPlugins", "start", "lazy.nvim" }), {
