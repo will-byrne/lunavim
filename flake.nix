@@ -118,6 +118,7 @@
               undotree
               nvim-colorizer-lua
               cloak-nvim
+              precognition-nvim
 
               # navigation
               telescope-nvim

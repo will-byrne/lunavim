@@ -171,4 +171,23 @@ return {
     lazy = false,
     dependencies = { "nvim-treesitter/nvim-treesitter" },
   },
+
+  {
+    -- Shows virtual-text hints for the motions available from the cursor (w, b, e, $, ^, ...).
+    "tris203/precognition.nvim",
+    event = "VeryLazy",
+    opts = {
+      highlightColor = { link = "Comment" },
+      targetedMotionHints = { enabled = false },
+    },
+    keys = {
+      {
+        "<leader>up",
+        function()
+          require("precognition").toggle()
+        end,
+        desc = "Toggle Motion Hints (precognition)",
+      },
+    },
+  },
 }

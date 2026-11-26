@@ -206,7 +206,7 @@ Format-on-save starts **off**:
 | `<leader>T…` | Tests (neotest) |
 | `<leader>t…` / `<F7>` | Terminals |
 | `<leader>cp` | Toggle markdown rendering |
-| `<leader>u…` | UI toggles: format on save, line numbers, wrap, inlay hints |
+| `<leader>u…` | UI toggles: format on save, line numbers, wrap, inlay hints, motion hints |
 | `<leader>q…` | Sessions |
 
 ## License
